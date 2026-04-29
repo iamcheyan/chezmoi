@@ -85,7 +85,7 @@ prompt_key() {
   echo ""
   echo "[3/3] 恢复 age 私钥"
   echo ""
-  local key_path="${HOME}/.config/chezmoi/age.key"
+  local key_path="${HOME}/chezmoi/age.key"
 
   if [ -f "$key_path" ]; then
     echo "  age 私钥已存在，解密配置..."
