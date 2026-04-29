@@ -43,33 +43,60 @@ install_deps() {
     fi
   fi
 
-  if [ -z "$pkg_manager" ]; then
-    echo "  错误: 无法识别包管理器，请手动安装 chezmoi 和 age"
+  # 尝试包管理器安装（支持 chezmoi 和 age 的发行版）
+  if [ -n "$pkg_manager" ]; then
+    echo "  使用 $pkg_manager 安装..."
+    case "$pkg_manager" in
+      dnf)
+        sudo dnf install -y chezmoi age 2>/dev/null || true
+        ;;
+      apt)
+        sudo apt-get update && sudo apt-get install -y chezmoi age 2>/dev/null || true
+        ;;
+      pacman)
+        sudo pacman -S --noconfirm chezmoi age 2>/dev/null || true
+        ;;
+      apk)
+        sudo apk add chezmoi age 2>/dev/null || true
+        ;;
+      brew)
+        brew install chezmoi age 2>/dev/null || true
+        ;;
+    esac
+  fi
+
+  # 如果包管理器没有，通过官方脚本/二进制安装
+  if ! command -v chezmoi >/dev/null 2>&1; then
+    echo "  包管理器未提供 chezmoi，通过官方脚本安装..."
+    sh -c "$(curl -fsLS get.chezmoi.io)" -- -b /usr/local/bin
+    sudo chmod +x /usr/local/bin/chezmoi
+  fi
+
+  if ! command -v age >/dev/null 2>&1; then
+    echo "  包管理器未提供 age，通过 GitHub Release 安装..."
+    local arch="amd64"
+    case "$(uname -m)" in
+      aarch64|arm64) arch="arm64" ;;
+      armv7l) arch="arm" ;;
+    esac
+    local age_tar="age-v1.2.1-linux-${arch}.tar.gz"
+    local tmpdir="$(mktemp -d)"
+    curl -fsSL "https://github.com/FiloSottile/age/releases/download/v1.2.1/${age_tar}" -o "${tmpdir}/${age_tar}"
+    tar -xzf "${tmpdir}/${age_tar}" -C "$tmpdir"
+    sudo mv "${tmpdir}/age/age" /usr/local/bin/age
+    sudo mv "${tmpdir}/age/age-keygen" /usr/local/bin/age-keygen
+    sudo chmod +x /usr/local/bin/age /usr/local/bin/age-keygen
+    rm -rf "$tmpdir"
+  fi
+
+  if command -v chezmoi >/dev/null 2>&1 && command -v age >/dev/null 2>&1; then
+    echo "  安装完成"
+  else
+    echo "  错误: 安装失败，请手动安装 chezmoi 和 age"
     echo "  https://www.chezmoi.io/install/"
     echo "  https://github.com/FiloSottile/age#installation"
     exit 1
   fi
-
-  echo "  使用 $pkg_manager 安装..."
-  case "$pkg_manager" in
-    dnf)
-      sudo dnf install -y chezmoi age
-      ;;
-    apt)
-      sudo apt-get update && sudo apt-get install -y chezmoi age
-      ;;
-    pacman)
-      sudo pacman -S --noconfirm chezmoi age
-      ;;
-    apk)
-      sudo apk add chezmoi age
-      ;;
-    brew)
-      brew install chezmoi age
-      ;;
-  esac
-
-  echo "  安装完成"
 }
 
 # 2. 初始化 chezmoi
