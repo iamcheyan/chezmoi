@@ -17,8 +17,8 @@ echo ""
 install_deps() {
   echo "[1/3] 检测并安装依赖..."
 
-  if command -v chezmoi >/dev/null 2>&1 && command -v age >/dev/null 2>&1; then
-    echo "  chezmoi 和 age 已安装，跳过"
+  if command -v chezmoi >/dev/null 2>&1 && command -v age >/dev/null 2>&1 && command -v htop >/dev/null 2>&1; then
+    echo "  chezmoi、age 和 htop 已安装，跳过"
     return
   fi
 
