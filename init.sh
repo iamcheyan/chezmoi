@@ -48,19 +48,19 @@ install_deps() {
     echo "  使用 $pkg_manager 安装..."
     case "$pkg_manager" in
       dnf)
-        sudo dnf install -y chezmoi age 2>/dev/null || true
+        sudo dnf install -y chezmoi age htop 2>/dev/null || true
         ;;
       apt)
-        sudo apt-get update && sudo apt-get install -y chezmoi age 2>/dev/null || true
+        sudo apt-get update && sudo apt-get install -y chezmoi age htop 2>/dev/null || true
         ;;
       pacman)
-        sudo pacman -S --noconfirm chezmoi age 2>/dev/null || true
+        sudo pacman -S --noconfirm chezmoi age htop 2>/dev/null || true
         ;;
       apk)
-        sudo apk add chezmoi age 2>/dev/null || true
+        sudo apk add chezmoi age htop 2>/dev/null || true
         ;;
       brew)
-        brew install chezmoi age 2>/dev/null || true
+        brew install chezmoi age htop 2>/dev/null || true
         ;;
     esac
   fi
