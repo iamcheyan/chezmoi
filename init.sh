@@ -112,8 +112,8 @@ install_deps() {
 init_chezmoi() {
   echo ""
   echo "[2/3] 从仓库初始化 chezmoi..."
-  chezmoi init --source="$HOME/chezmoi" --apply "$REPO_URL"
-  echo "  配置已应用到本地"
+  chezmoi init --source="$HOME/chezmoi" "$REPO_URL"
+  echo "  仓库已克隆到 ~/chezmoi"
 }
 
 # 3. 提示恢复 age 私钥
