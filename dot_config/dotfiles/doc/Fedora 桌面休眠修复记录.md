@@ -371,4 +371,56 @@ journalctl -b 0 | grep -i "PM: hibernation"
 *   ⚠️ **amdgpu hibernate 恢复黑屏**: AMD APU 在 `6.19.12` 内核上存在已知 bug，建议升级内核或改用 suspend/普通关机。
 
 ---
-*最后更新日期：2026年4月29日*
+
+## 九、 大内存机型休眠镜像创建失败（Cannot allocate memory）
+
+### 9.1 问题现象
+
+点击休眠后，电源灯常亮，风扇继续转，系统并未真正关机。查看日志发现：
+
+```
+PM: hibernation: Normal pages needed: 8430992 + 1024, available pages: 8193073
+PM: hibernation: Error -12 creating image
+Failed to put system to sleep. System resumed again: Cannot allocate memory
+```
+
+### 9.2 故障原因
+
+休眠（hibernate）的过程分两步：
+
+1. **在内存中打包快照** — 内核需要把当前所有活跃内存页整理成一个镜像，这个整理过程本身需要在内存中分配额外的管理结构（页表、位图等）。需要的空闲页数量约等于**实际在用的内存页数量**（不是总内存）。
+2. **把打包好的镜像写入 swap** — 这才是用到 swap 分区的时候。
+
+本机配置：
+- 内存 62GB，swap 分区 64GB
+- 实际活跃内存页约 33.7GB
+- 可用于打包的空闲页仅 32.8GB
+- **缺口约 1GB**
+
+Swap 64GB 完全够用，但第一步在内存里打包时就因为空闲页不足而失败了。大内存机型（62GB）反而比小内存机型更容易踩到这个坑，因为活跃内存稍高就会突破可用空闲页的上限。
+
+### 9.3 修复方法
+
+创建 systemd 休眠前钩子，在系统进入 hibernate 前自动清理缓存，释放空闲内存页：
+
+```bash
+sudo tee /usr/lib/systemd/system-sleep/99-clear-cache << 'EOF'
+#!/bin/bash
+if [ "$1" = "pre" ] && [ "$2" = "hibernate" ]; then
+    sync
+    echo 3 > /proc/sys/vm/drop_caches
+fi
+EOF
+sudo chmod +x /usr/lib/systemd/system-sleep/99-clear-cache
+```
+
+脚本逻辑：
+- `sync` — 先把文件系统缓存写回硬盘
+- `echo 3 > /proc/sys/vm/drop_caches` — 清空页缓存、目录项缓存、inode 缓存，释放数 GB 空闲内存
+
+### 9.4 验证
+
+创建后执行一次休眠测试，日志中不应再出现 `Error -12 creating image`。
+
+---
+*最后更新日期：2026年4月30日*
