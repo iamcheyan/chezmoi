@@ -66,10 +66,14 @@ install_deps() {
   fi
 
   # 如果包管理器没有，通过官方脚本/二进制安装
+  # 优先安装到 ~/.local/bin（无需 sudo），否则回退到 /usr/local/bin
+  local install_dir="$HOME/.local/bin"
+  mkdir -p "$install_dir"
+
   if ! command -v chezmoi >/dev/null 2>&1; then
     echo "  包管理器未提供 chezmoi，通过官方脚本安装..."
-    sh -c "$(curl -fsLS get.chezmoi.io)" -- -b /usr/local/bin
-    sudo chmod +x /usr/local/bin/chezmoi
+    sh -c "$(curl -fsLS get.chezmoi.io)" -- -b "$install_dir"
+    chmod +x "$install_dir/chezmoi"
   fi
 
   if ! command -v age >/dev/null 2>&1; then
@@ -83,10 +87,15 @@ install_deps() {
     local tmpdir="$(mktemp -d)"
     curl -fsSL "https://github.com/FiloSottile/age/releases/download/v1.2.1/${age_tar}" -o "${tmpdir}/${age_tar}"
     tar -xzf "${tmpdir}/${age_tar}" -C "$tmpdir"
-    sudo mv "${tmpdir}/age/age" /usr/local/bin/age
-    sudo mv "${tmpdir}/age/age-keygen" /usr/local/bin/age-keygen
-    sudo chmod +x /usr/local/bin/age /usr/local/bin/age-keygen
+    mv "${tmpdir}/age/age" "$install_dir/age"
+    mv "${tmpdir}/age/age-keygen" "$install_dir/age-keygen"
+    chmod +x "$install_dir/age" "$install_dir/age-keygen"
     rm -rf "$tmpdir"
+  fi
+
+  # 确保 ~/.local/bin 在 PATH 中
+  if [[ ":$PATH:" != *":$HOME/.local/bin:"* ]]; then
+    export PATH="$HOME/.local/bin:$PATH"
   fi
 
   if command -v chezmoi >/dev/null 2>&1 && command -v age >/dev/null 2>&1; then
