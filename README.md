@@ -90,6 +90,54 @@ chezmoi cd && git add . && git commit -m "update" && git push
 
 ---
 
+## chezmoi 命名规则
+
+chezmoi 通过**源目录中的文件名前缀**自动映射到目标目录（`~`），无需逐个配置路径。
+
+### 属性前缀
+
+| 前缀 | 效果 | 可用位置 | 示例 |
+|---|---|---|---|
+| `dot_` | 替换为 `.` | 文件名、目录名 | `dot_zshrc` → `~/.zshrc` |
+| `private_` | 权限 0600 | 文件名 | `private_dot_env` → `~/.env`（仅自己可读写） |
+| `executable_` | 权限 0755 | 文件名 | `executable_script.sh` → `~/script.sh`（可执行） |
+| `encrypted_` | 加密存储 | 文件名 | `encrypted_private_config` → 密文存储，部署时自动解密 |
+| `literal_` | 原样保留，不处理前缀 | 文件名 | `literal_dot_bashrc` → `~/dot_bashrc`（真的叫 dot_bashrc） |
+| `symlink_` | 创建符号链接 | 文件名 | `symlink_dot_zshrc` → `~/.zshrc`（链接到源文件） |
+
+前缀可以**任意组合**，顺序无关：
+
+```
+private_executable_dot_env    → ~/.env（权限 0700）
+encrypted_private_config      → 加密 + 权限 0600
+```
+
+### 路径映射示例
+
+```
+源目录                          → 目标目录
+~/chezmoi/
+├── dot_config/
+│   └── kitty/
+│       └── kitty.conf       → ~/.config/kitty/kitty.conf
+├── dot_ssh/
+│   └── private_dot_config   → ~/.ssh/config（权限 0600）
+├── dot_local/
+│   └── bin/
+│       └── executable_my.sh → ~/.local/bin/my.sh（权限 0755）
+└── dot_zshrc                → ~/.zshrc
+```
+
+### 特殊文件（不部署到 `~`）
+
+| 文件 | 作用 |
+|---|---|
+| `.chezmoi.toml.tmpl` | 配置模板，`chezmoi init` 时生成 `~/.config/chezmoi/chezmoi.toml` |
+| `.chezmoiignore` | 告诉 chezmoi 哪些源文件不部署到目标目录 |
+| `.chezmoiroot` | 定义子模块根目录 |
+
+---
+
 ## 加密机制
 
 - 加密算法：**age**（现代、简洁的文件加密工具）
