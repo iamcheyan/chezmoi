@@ -301,3 +301,54 @@ xh -v httpbin.org/get      # HTTP 请求
 glow README.md             # 读 markdown
 tldr tar                   # 查命令示例
 ```
+
+---
+
+## 新机器初始化
+
+`~/dotfiles/init.sh` 是新机器一键初始化脚本。
+
+### 完整安装（默认）
+
+```bash
+bash ~/dotfiles/init.sh
+```
+
+安装内容：
+- **Shell**：zsh + zinit（插件管理器）
+- **语言环境**：pyenv（Python）、nvm（Node.js）
+- **基础工具**：git、curl、ripgrep、fd、bat、lsd、zoxide、fzf、direnv
+- **编辑器**：Neovim
+- **字体**：Nerd Font
+- **额外工具**：Zellij、Codex、Gemini、Opencode、Tree-sitter、Docker（Linux）
+
+### 最小安装
+
+```bash
+bash ~/dotfiles/init.sh --minimal
+```
+
+跳过内容：
+- Neovim
+- 字体
+- Tree-sitter
+- jq
+- yt-dlp
+- translate-shell
+
+保留安装：
+zsh、zinit、pyenv、nvm、fzf、direnv、git、curl、ripgrep、fd、bat、lsd、zoxide、glow、mdcat、tealdeer、gping、httpie、broot、htop，以及 Zellij、Codex、Gemini、Opencode
+
+### 修复模式
+
+```bash
+bash ~/dotfiles/init.sh --repair
+```
+
+检查并修复损坏的 zinit 插件（如 atuin、broot）。
+
+### 组合使用
+
+```bash
+bash ~/dotfiles/init.sh --minimal --repair
+```
