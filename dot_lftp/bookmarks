@@ -1,0 +1,3 @@
+# LFTP bookmarks
+# 格式: 名称 地址
+alpine-practice sftp://student@localhost:2222
