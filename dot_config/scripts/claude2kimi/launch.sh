@@ -17,6 +17,12 @@ if ! command -v claude &>/dev/null; then
     echo "安装完成"
 fi
 
+# Ensure native binary is installed (postinstall may have been skipped)
+CLAUDE_PKG="$(npm root -g)/@anthropic-ai/claude-code"
+if [ -f "$CLAUDE_PKG/install.cjs" ]; then
+    node "$CLAUDE_PKG/install.cjs" 2>/dev/null || true
+fi
+
 # 加载环境变量
 set -a
 source "$HOME/.config/claude2kimi/.env"
