@@ -2,5 +2,9 @@ sourceDir = "~/chezmoi"
 encryption = "age"
 
 [age]
+{{- if eq .chezmoi.os "darwin" }}
+    identity = "/Users/tetsuya/Library/CloudStorage/Dropbox/chezmoi.age.key"
+{{- else }}
     identity = "~/.age.key"
+{{- end }}
     recipient = "age1mgse0g9kwwxvarn942n3zxn5dngye7769c924zzt0d876u4rx9ws9pa4u5"
