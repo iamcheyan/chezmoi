@@ -14,7 +14,7 @@ if ! command -v claude &>/dev/null; then
 fi
 
 set -a
-source "$HOME/.config/scripts/claude2xiaomi/.env"
+source "$HOME/.config/scripts/claude2deepseek/.env"
 set +a
 
 claude --dangerously-skip-permissions
