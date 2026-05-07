@@ -47,5 +47,6 @@ rm ~/.config/scripts/claude2xxx/.env
 | 目录 | 用途 |
 |------|------|
 | `claude2kimi` | Kimi API |
+| `claude2kimi-cn` | Kimi API (CN) |
 | `claude2xiaomi` | 小米 mimo API |
 | `claude2deepseek` | DeepSeek API |
