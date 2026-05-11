@@ -1,6 +1,14 @@
 sourceDir = "~/chezmoi"
-encryption = "age"
 
+{{- $ageKeyExists := false }}
+{{- if eq .chezmoi.os "darwin" }}
+{{-   $ageKeyExists = stat "/Users/tetsuya/Library/CloudStorage/Dropbox/chezmoi.age.key" }}
+{{- else }}
+{{-   $ageKeyExists = stat "~/.age.key" }}
+{{- end }}
+
+{{- if $ageKeyExists }}
+encryption = "age"
 [age]
 {{- if eq .chezmoi.os "darwin" }}
     identity = "/Users/tetsuya/Library/CloudStorage/Dropbox/chezmoi.age.key"
@@ -8,3 +16,4 @@ encryption = "age"
     identity = "~/.age.key"
 {{- end }}
     recipient = "age1mgse0g9kwwxvarn942n3zxn5dngye7769c924zzt0d876u4rx9ws9pa4u5"
+{{- end }}
