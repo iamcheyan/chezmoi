@@ -8,9 +8,17 @@ else
   exit 1
 fi
 
-# ===== 读取变量 =====
-PAT="$PAT"
-REPO_URL=$(git config --get remote.origin.url)
+# ===== 读取参数 =====
+REMOTE="${1:-origin}"
+
+# ===== 读取对应 remote 的 PAT =====
+case "$REMOTE" in
+  origin) PAT="$ORIGIN" ;;
+  local) PAT="$LOCAL" ;;
+  *)     echo "❌ 未知 remote: $REMOTE"; exit 1 ;;
+esac
+
+REPO_URL=$(git config --get remote.$REMOTE.url)
 
 # ===== 校验 =====
 if [ -z "$PAT" ]; then
@@ -31,5 +39,8 @@ fi
 # ===== 注入 PAT =====
 AUTH_URL=$(echo "$REPO_URL" | sed -E "s#https://#https://$PAT@#")
 
-# ===== 执行 push（透传参数）=====
-git push "$AUTH_URL" "$@"
+# ===== 获取当前分支 =====
+BRANCH=$(git branch --show-current)
+
+# ===== 执行 push =====
+git push "$AUTH_URL" "$BRANCH"
