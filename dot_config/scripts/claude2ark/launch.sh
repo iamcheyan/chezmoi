@@ -18,9 +18,12 @@ if [ -f "$CLAUDE_PKG/install.cjs" ]; then
 	node "$CLAUDE_PKG/install.cjs" 2>/dev/null || true
 fi
 
-set -a
-source "$HOME/.config/scripts/claude2ark/.env"
-set +a
+# 从 llm.yaml 读取配置
+LLM_CONFIG="$HOME/.config/secrets/llm.yaml"
+if [ -f "$LLM_CONFIG" ]; then
+	export ANTHROPIC_BASE_URL=$(yq e '.providers.ark-volces.base_url' "$LLM_CONFIG")
+	export ANTHROPIC_API_KEY=$(yq e '.providers.ark-volces.api_key' "$LLM_CONFIG")
+fi
 
 cd "$HOME"
 claude --dangerously-skip-permissions --model claude-sonnet-4-20250514
