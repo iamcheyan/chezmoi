@@ -1,0 +1,82 @@
+default_provider: xiaomimimo
+
+providers:
+
+  xiaomimimo:
+    api_key: YOUR_XIAOMIMIMO_API_KEY
+    base_url: https://token-plan-cn.xiaomimimo.com/anthropic
+
+    models:
+      default: claude-sonnet-4
+
+  deepseek:
+    api_key: YOUR_DEEPSEEK_API_KEY
+    base_url: https://api.deepseek.com
+
+    models:
+      chat: deepseek-chat
+      reasoning: deepseek-reasoner
+
+  ark-volces:
+    api_key: YOUR_ARK_API_KEY
+    base_url: https://ark.cn-beijing.volces.com/api/coding
+
+    models:
+      claude-sonnet-4: claude-sonnet-4-20250514
+
+  kimi-cn:
+    api_key: YOUR_KIMI_CN_API_KEY
+    base_url: https://api.moonshot.cn/anthropic
+
+    models:
+      default: kimi-k2
+
+  kimi-global:
+    api_key: YOUR_KIMI_GLOBAL_API_KEY
+    base_url: https://api.kimi.com/coding/
+
+    models:
+      default: kimi-k2
+      thinking: kimi-k2-thinking
+
+profiles:
+
+  claude2xiaomi:
+    provider: xiaomimimo
+    model: claude-sonnet-4
+    env:
+      ENABLE_TOOL_SEARCH: "false"
+
+  claude2deepseek-chat:
+    provider: deepseek
+    model: deepseek-chat
+    env:
+      ENABLE_TOOL_SEARCH: "false"
+
+  claude2deepseek-reasoner:
+    provider: deepseek
+    model: deepseek-reasoner
+    env:
+      ENABLE_TOOL_SEARCH: "false"
+
+  claude2ark:
+    provider: ark-volces
+    model: claude-sonnet-4-20250514
+
+  claude2kimi-cn:
+    provider: kimi-cn
+    model: kimi-k2
+    env:
+      ENABLE_TOOL_SEARCH: "false"
+
+  claude2kimi-global:
+    provider: kimi-global
+    model: kimi-k2
+    env:
+      ENABLE_TOOL_SEARCH: "false"
+
+  claude2kimi-thinking:
+    provider: kimi-global
+    model: kimi-k2-thinking
+    env:
+      ENABLE_TOOL_SEARCH: "false"
