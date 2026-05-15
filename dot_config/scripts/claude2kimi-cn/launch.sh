@@ -23,11 +23,14 @@ if [ -f "$CLAUDE_PKG/install.cjs" ]; then
 	node "$CLAUDE_PKG/install.cjs" 2>/dev/null || true
 fi
 
-# 加载环境变量
-set -a
-source "$HOME/.config/scripts/claude2kimi-cn/.env"
+# 从 llm.yaml 读取配置
+LLM_CONFIG="$HOME/.config/secrets/llm.yaml"
+if [ -f "$LLM_CONFIG" ]; then
+	export ANTHROPIC_BASE_URL=$(yq e '.providers.kimi-cn.base_url' "$LLM_CONFIG")
+	export ANTHROPIC_API_KEY=$(yq e '.providers.kimi-cn.api_key' "$LLM_CONFIG")
+	export ENABLE_TOOL_SEARCH=$(yq e '.profiles.claude2kimi-cn.env.ENABLE_TOOL_SEARCH // "false"' "$LLM_CONFIG")
+fi
 export PATH="$HOME/.npm-global/bin:$PATH"
-set +a
 
 # 启动 Claude Code
 claude --dangerously-skip-permissions

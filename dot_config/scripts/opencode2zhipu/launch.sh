@@ -11,17 +11,18 @@ OPENCODE_REGISTRY="https://registry.npmmirror.com"
 info()  { printf "\033[1;34m[INFO]\033[0m  %s\n" "$*"; }
 ok()    { printf "\033[1;32m[OK]\033[0m    %s\n" "$*"; }
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-ENV_FILE="$SCRIPT_DIR/.env"
+LLM_CONFIG="$HOME/.config/secrets/llm.yaml"
 CONFIG_DIR="$HOME/.config/opencode"
 CONFIG_FILE="$CONFIG_DIR/opencode.json"
 
-load_env() {
-  if [[ -f "$ENV_FILE" ]]; then
-    set -a
-    # shellcheck source=/dev/null
-    source "$ENV_FILE"
-    set +a
+load_config() {
+  if [[ -f "$LLM_CONFIG" ]]; then
+    ZHIPU_BASE_URL=$(yq e '.providers.zhipu.base_url // "https://open.bigmodel.cn/api/paas/v4"' "$LLM_CONFIG")
+    ZHIPU_API_KEY=$(yq e '.providers.zhipu.api_key' "$LLM_CONFIG")
+    ZHIPU_MODEL=$(yq e '.providers.zhipu.models.default // "glm-4.7"' "$LLM_CONFIG")
+  else
+    echo "警告: 未找到 llm.yaml 配置文件" >&2
+    exit 1
   fi
 }
 
@@ -56,8 +57,8 @@ write_config() {
         "apiKey": "${ZHIPU_API_KEY}"
       },
       "models": {
-        "${model:-glm-4.7}": {
-          "name": "${model:-glm-4.7}",
+        "${ZHIPU_MODEL}": {
+          "name": "${ZHIPU_MODEL}",
           "limit": {
             "context": 1048576,
             "output": 131072
@@ -92,7 +93,7 @@ do_install() {
 }
 
 main() {
-  load_env
+  load_config
   ensure_nvm
   write_config
 
