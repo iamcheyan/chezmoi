@@ -143,14 +143,72 @@ encrypted_private_config      → 加密 + 权限 0600
 - 加密算法：**age**（现代、简洁的文件加密工具）
 - 配置模板：`~/chezmoi/.chezmoi.toml.tmpl`
 - 生成的配置：`~/.config/chezmoi/chezmoi.toml`
-- 私钥路径：`~/chezmoi/age.key`
+- 私钥路径（identity）：macOS 为 `~/Library/CloudStorage/Dropbox/chezmoi.age.key`，Linux 为 `~/.age.key`
+- 公钥（recipient）：编码在 `chezmoi.toml` 中
 
-加密后的文件在仓库中以 `.age` 后缀存储，例如：
+### 加密文件的生命周期
+
+以 `~/.config/scripts/claude2xiaomi/.env` 为例，有两种创建方式：
+
+#### 方式一：chezmoi edit（从零新建）
+
+```bash
+chezmoi edit --encrypt ~/.config/scripts/claude2xiaomi/.env
+```
+
+直接在源目录创建加密文件，编辑器打开的是明文，保存后自动加密存储。无需先在目标路径手动创建。
+
+#### 方式二：chezmoi add（文件已存在）
+
+如果文件已经在目标路径：
+```
+~/.config/scripts/claude2xiaomi/.env   ← 明文，包含 API key 等
+```
+
+用一条命令纳入管理并加密：
+```bash
+chezmoi add --encrypt ~/.config/scripts/claude2xiaomi/.env
+```
+
+chezmoi 自动完成：
+1. 读取明文内容
+2. 用公钥 `age1mgse0g...` 加密
+3. 存入源目录，文件名加 `encrypted_` 前缀：
+   ```
+   ~/chezmoi/dot_config/scripts/claude2xiaomi/encrypted_private_dot_env
+   ```
+
+#### 部署：chezmoi apply 自动解密
+
+```bash
+chezmoi apply
+```
+
+chezmoi 自动完成：
+1. 发现文件名以 `encrypted_` 开头 → 需要解密
+2. 用私钥 `chezmoi.age.key` 解密
+3. 写明文到目标路径 `~/.config/scripts/claude2xiaomi/.env`（权限 0600）
+
+### 文件名前缀与加密的关系
+
+```
+encrypted_private_dot_env
+│         │       │
+│         │       └── dot_      → 目标路径中的 "."
+│         └── private_         → 权限 0600（仅 owner 可读写）
+└── encrypted_                 → 用 age 加密存储，apply 时自动解密
+```
+
+加密后的文件在仓库中以密文存储，例如：
 
 ```
 private_dot_ssh/
 └── encrypted_private_config.age
+dot_config/scripts/claude2xiaomi/
+└── encrypted_private_dot_env
 ```
+
+这样加密文件可以安全提交到 git，即使推到公开仓库也不会泄露——没有私钥的人看到的只是乱码。
 
 ---
 
