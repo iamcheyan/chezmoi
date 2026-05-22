@@ -140,6 +140,13 @@ prompt_key() {
 # 主流程
 install_deps
 init_chezmoi
+
+# 配置 git hooks
+if [ -d "$HOME/chezmoi/.githooks" ]; then
+  git -C "$HOME/chezmoi" config core.hooksPath .githooks
+  echo "  git hooksPath 已设置为 .githooks"
+fi
+
 prompt_key
 
 echo ""
