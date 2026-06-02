@@ -38,7 +38,12 @@ if [[ "$REPO_URL" == git@* ]]; then
 fi
 
 # ===== 注入 PAT =====
-AUTH_URL=$(echo "$REPO_URL" | sed -E "s#https://#https://x-access-token:$PAT@#")
+if [[ "$PAT" == *:* ]]; then
+  AUTH_CRED="$PAT"
+else
+  AUTH_CRED="x-access-token:$PAT"
+fi
+AUTH_URL=$(echo "$REPO_URL" | sed -E "s#https://#https://$AUTH_CRED@#")
 
 # ===== 获取当前分支 =====
 BRANCH=$(git branch --show-current)
