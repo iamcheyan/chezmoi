@@ -69,6 +69,7 @@ privacy_filter_hits() {
       if (path == ".githooks/pre-push") next
       if (path == ".githooks/pre-commit") next
       if (path == ".githooks/lib/privacy-check.sh") next
+      if (path == ".env") next
       if (path == "git.md" && line ~ /(\/home\/[^[:space:]]+\/dotfiles|\\\$HOME\/dotfiles)/) next
       if (path == "doc/git.md" && line ~ /(\/home\/[^[:space:]]+\/dotfiles|\\\$HOME\/dotfiles)/) next
       if (line ~ comment_regex) next
@@ -160,6 +161,7 @@ privacy_check_paths() {
 
   awk -v sensitive_path_regex="$SENSITIVE_PATH_REGEX" '
     $0 ~ sensitive_path_regex {
+      if ($0 ~ /(^|\/)[.]env$/) next
       print $0
     }
   ' "$input_file" | sort -u > "$output_file"

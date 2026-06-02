@@ -17,8 +17,8 @@ echo ""
 install_deps() {
   echo "[1/3] 检测并安装依赖..."
 
-  if command -v chezmoi >/dev/null 2>&1 && command -v age >/dev/null 2>&1; then
-    echo "  chezmoi 和 age 已安装，跳过"
+  if command -v chezmoi >/dev/null 2>&1 && command -v age >/dev/null 2>&1 && command -v yq >/dev/null 2>&1; then
+    echo "  chezmoi、age 和 yq 已安装，跳过"
     return
   fi
 
@@ -43,24 +43,24 @@ install_deps() {
     fi
   fi
 
-  # 尝试包管理器安装（支持 chezmoi 和 age 的发行版）
+  # 尝试包管理器安装（支持 chezmoi、age 和 yq 的发行版）
   if [ -n "$pkg_manager" ]; then
     echo "  使用 $pkg_manager 安装..."
     case "$pkg_manager" in
       dnf)
-        sudo dnf install -y chezmoi age 2>/dev/null || true
+        sudo dnf install -y chezmoi age yq 2>/dev/null || true
         ;;
       apt)
-        sudo apt-get update && sudo apt-get install -y chezmoi age 2>/dev/null || true
+        sudo apt-get update && sudo apt-get install -y chezmoi age yq 2>/dev/null || true
         ;;
       pacman)
-        sudo pacman -S --noconfirm chezmoi age 2>/dev/null || true
+        sudo pacman -S --noconfirm chezmoi age yq 2>/dev/null || true
         ;;
       apk)
-        sudo apk add chezmoi age 2>/dev/null || true
+        sudo apk add chezmoi age yq 2>/dev/null || true
         ;;
       brew)
-        brew install chezmoi age 2>/dev/null || true
+        brew install chezmoi age yq 2>/dev/null || true
         ;;
     esac
   fi
@@ -93,17 +93,33 @@ install_deps() {
     rm -rf "$tmpdir"
   fi
 
+  # 安装 yq (YAML 解析器)
+  if ! command -v yq >/dev/null 2>&1; then
+    echo "  包管理器未提供 yq，通过 GitHub Release 安装..."
+    local yq_arch="amd64"
+    case "$(uname -m)" in
+      aarch64|arm64) yq_arch="arm64" ;;
+      armv7l) yq_arch="arm" ;;
+    esac
+    local yq_binary="yq_linux_${yq_arch}"
+    local yq_version="v4.44.6"
+    curl -fsSL "https://github.com/mikefarah/yq/releases/download/${yq_version}/${yq_binary}" -o "$install_dir/yq"
+    chmod +x "$install_dir/yq"
+    echo "  yq 安装完成"
+  fi
+
   # 确保 ~/.local/bin 在 PATH 中
   if [[ ":$PATH:" != *":$HOME/.local/bin:"* ]]; then
     export PATH="$HOME/.local/bin:$PATH"
   fi
 
-  if command -v chezmoi >/dev/null 2>&1 && command -v age >/dev/null 2>&1; then
+  if command -v chezmoi >/dev/null 2>&1 && command -v age >/dev/null 2>&1 && command -v yq >/dev/null 2>&1; then
     echo "  安装完成"
   else
-    echo "  错误: 安装失败，请手动安装 chezmoi 和 age"
+    echo "  错误: 安装失败，请手动安装 chezmoi、age 和 yq"
     echo "  https://www.chezmoi.io/install/"
     echo "  https://github.com/FiloSottile/age#installation"
+    echo "  https://github.com/mikefarah/yq#install"
     exit 1
   fi
 }
