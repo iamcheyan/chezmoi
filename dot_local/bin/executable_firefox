@@ -1,0 +1,21 @@
+#!/bin/sh
+# Firefox wrapper to force HiDPI scaling on labwc/Wayland.
+# The stock "firefox" (and .desktop Exec=firefox) often ignores the session's
+# GDK_SCALE because Firefox does its own GTK / CSS pixel ratio handling on Wayland.
+# This ensures normal launches (menu, terminal, default browser, xdg-open, etc.)
+# behave like the existing "Firefox (HiDPI 2x)" menu entry.
+#
+# Matches the scale currently used in labwc/environment and the HiDPI script (2x).
+# For other scales (e.g. 1.5), you can still call:
+#   ~/.config/TWM/labwc/scripts/firefox-hidpi 1.5
+#
+# After chezmoi apply, this takes precedence in PATH (~/.local/bin before /usr/bin).
+# Re-login or restart labwc for full menu/desktop integration if needed.
+
+exec env \
+    MOZ_ENABLE_WAYLAND=1 \
+    GDK_SCALE=2 \
+    GDK_DPI_SCALE=0.5 \
+    QT_SCALE_FACTOR=2 \
+    XCURSOR_SIZE=24 \
+    /usr/bin/firefox "$@"
