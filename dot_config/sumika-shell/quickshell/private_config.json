@@ -239,5 +239,10 @@
   "windows": {
     "centerTitle": true,
     "showTitlebar": true
+  },
+  "inputMethod": {
+    "enabled": true,
+    "backend": "fcitx5",
+    "autostart": true
   }
 }
