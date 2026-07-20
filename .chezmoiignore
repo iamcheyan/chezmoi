@@ -2,14 +2,4 @@ README.md
 init.sh
 config
 .config/fcitx5/profile
-
-# Ignore encrypted files when age key is not present
-{{- $ageKeyExists := false }}
-{{- if eq .chezmoi.os "darwin" }}
-{{-   $ageKeyExists = stat "/Users/tetsuya/Library/CloudStorage/Dropbox/chezmoi.age.key" }}
-{{- else }}
-{{-   $ageKeyExists = stat "~/.age.key" }}
-{{- end }}
-{{- if not $ageKeyExists }}
-encrypted_private_*
-{{- end }}
+.omp/agent
