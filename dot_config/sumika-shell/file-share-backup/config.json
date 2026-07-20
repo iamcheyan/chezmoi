@@ -1,0 +1,16 @@
+{
+  "address": "192.168.3.10",
+  "share": "NAS",
+  "user": "tetsuya",
+  "password": "cccccc",
+  "remotePath": "Backups",
+  "localPath": [
+    "/home/tetsuya/\u4e0b\u8f7d/",
+    "/home/tetsuya/\u56fe\u7247/",
+    "/home/tetsuya/.config/opencode/opencode.json"
+  ],
+  "includeExt": "",
+  "excludeExt": "",
+  "scheduleType": "manual",
+  "scheduleValue": ""
+}
