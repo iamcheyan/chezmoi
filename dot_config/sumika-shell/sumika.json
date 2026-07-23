@@ -1,0 +1,439 @@
+{
+  "$$schema": "https://sumika-shell.org/schemas/sumika.schema.json",
+  "$$description": "Sumika Shell 统一配置文件。所有用户可配置项集中于此文件。",
+  "$$notice": "此文件由 chezmoi 管理。编辑后运行 `chezmoi apply` 生效。",
+  "modules": {
+    "$$description": "模块系统全局控制",
+    "enabled": false,
+    "barButtonOrder": {}
+  },
+  "appearance": {
+    "$$description": "UI 外观配置",
+    "extraBackgroundTint": true,
+    "fonts": {
+      "expressive": "Cantarell",
+      "iconNerd": "JetBrainsMono Nerd Font Mono",
+      "main": "Cantarell",
+      "monospace": "MesloLGS Nerd Font Mono",
+      "numbers": "Cantarell",
+      "reading": "Cantarell",
+      "title": "Cantarell"
+    },
+    "transparency": {
+      "automatic": false,
+      "backgroundTransparency": 0,
+      "contentTransparency": 0,
+      "enable": false
+    },
+    "wallpaperTheming": {
+      "enableAppsAndShell": false,
+      "enableQtApps": false,
+      "enableTerminal": false,
+      "terminalGenerationProps": {
+        "forceDarkMode": false,
+        "harmonizeThreshold": 100,
+        "harmony": 0.6,
+        "termFgBoost": 0.35
+      }
+    }
+  },
+  "apps": {
+    "$$description": "外部应用程序命令",
+    "bluetooth": "kcmshell6 kcm_bluetooth",
+    "changePassword": "kitty -1 --hold=yes fish -i -c 'passwd'",
+    "manageUser": "kcmshell6 kcm_users",
+    "network": "kcmshell6 kcm_networkmanagement",
+    "networkEthernet": "kcmshell6 kcm_networkmanagement",
+    "taskManager": "plasma-systemmonitor --page-name Processes",
+    "terminal": "kitty -1",
+    "update": "kitty -1 --hold=yes fish -i -c 'pkexec pacman -Syu'",
+    "volumeMixer": "pavucontrol-qt"
+  },
+  "audio": {
+    "$$description": "音频保护配置",
+    "protection": {
+      "enable": true,
+      "maxAllowed": 99,
+      "maxAllowedIncrease": 10
+    }
+  },
+  "background": {
+    "$$description": "壁纸/背景行为",
+    "hideWhenFullscreen": true,
+    "thumbnailPath": "",
+    "wallpaperPath": ""
+  },
+  "bar": {
+    "$$description": "顶栏/底栏配置",
+    "borderless": false,
+    "bottom": false,
+    "centerIconSize": 18,
+    "centerModuleSpacing": 8,
+    "cornerStyle": 0,
+    "floatStyleShadow": true,
+    "resources": {
+      "alwaysShowCpu": true,
+      "alwaysShowSwap": true,
+      "cpuWarningThreshold": 90,
+      "memoryWarningThreshold": 95,
+      "swapWarningThreshold": 85
+    },
+    "rightIconSize": 20,
+    "rightIconSlotWidth": 28,
+    "rightModuleSpacing": 8,
+    "screenList": [],
+    "showBackground": true,
+    "vertical": false
+  },
+  "battery": {
+    "$$description": "电池和电源行为",
+    "automaticSuspend": true,
+    "critical": 5,
+    "full": 101,
+    "low": 20,
+    "suspend": 3
+  },
+  "conflictKiller": {
+    "$$description": "冲突进程自动清理",
+    "autoKillNotificationDaemons": false,
+    "autoKillTrays": false
+  },
+  "cursor": {
+    "$$description": "鼠标/触摸板光标主题",
+    "theme": "Adwaita",
+    "size": 24
+  },
+  "gestures": {
+    "$$description": "触摸板手势行为（设为 null 禁用）",
+    "fourFingerUp": "overview",
+    "fourFingerPinchIn": "launcher",
+    "fourFingerDown": null,
+    "fourFingerLeft": null,
+    "fourFingerRight": null,
+    "threeFingerHorizontal": null
+  },
+  "hacks": {
+    "$$description": "兼容性/权宜配置",
+    "arbitraryRaceConditionDelay": 20
+  },
+  "idle": {
+    "$$description": "空闲超时（秒）",
+    "lockBeforeSuspend": true,
+    "lockTimeout": 152,
+    "monitorOffTimeout": 300,
+    "screensaverTimeout": 150,
+    "suspendTimeout": 0
+  },
+  "input": {
+    "$$description": "键盘和触摸板配置",
+    "keyboard": {
+      "kbLayout": "jp",
+      "kbVariant": "",
+      "kbOptions": "compose:caps",
+      "numlockByDefault": true,
+      "repeatRate": 40,
+      "repeatDelay": 250
+    },
+    "touchpad": {
+      "tapToClick": true,
+      "tapButtonMap": "lrm",
+      "clickfingerBehavior": true,
+      "scrollFactor": 0.4,
+      "naturalScroll": false,
+      "disableWhileTyping": false
+    }
+  },
+  "inputMethod": {
+    "$$description": "输入法配置",
+    "enabled": true,
+    "autostart": true,
+    "backend": "fcitx5",
+    "switchKey": "SUPER + SPACE",
+    "switchSchemaKey": "SUPER + SHIFT + SPACE",
+    "schemas": [
+      {
+        "id": "sbzr",
+        "language": "zh",
+        "name": "Chinese",
+        "variant": "Natural input",
+        "badge": "中"
+      },
+      {
+        "id": "sbzr_mix",
+        "language": "zh",
+        "name": "Chinese",
+        "variant": "Mixed input",
+        "badge": "混"
+      },
+      {
+        "id": "easy_en",
+        "language": "en",
+        "name": "English",
+        "variant": "Easy English",
+        "badge": "A"
+      },
+      {
+        "id": "jaroomaji",
+        "language": "ja",
+        "name": "Japanese",
+        "variant": "Romaji",
+        "badge": "あ"
+      }
+    ]
+  },
+  "interactions": {
+    "$$description": "交互行为（鼠标/触摸板滚动、死像素补偿）",
+    "deadPixelWorkaround": {
+      "enable": false
+    },
+    "scrolling": {
+      "fasterTouchpadScroll": false,
+      "mouseScrollDeltaThreshold": 120,
+      "mouseScrollFactor": 120,
+      "touchpadScrollFactor": 450
+    }
+  },
+  "keyboardRemap": {
+    "$$description": "键盘映射（keyd）配置",
+    "devices": {
+      "apple-spi-keyboard": {
+        "displayName": "apple spi keyboard",
+        "hyprName": "apple-spi-keyboard",
+        "keydId": "05ac:0342",
+        "enabled": true,
+        "enabledPresets": [],
+        "presetOverrides": {
+          "muhenkan-meta": "escape"
+        }
+      },
+      "compx-2-4g-receiver": {
+        "displayName": "compx 2.4g receiver",
+        "hyprName": "compx-2-4g-receiver",
+        "keydId": "25a7:fa61",
+        "enabled": true,
+        "enabledPresets": [],
+        "presetOverrides": {}
+      },
+      "guo-magic-keyboard": {
+        "displayName": "guoのmagic keyboard",
+        "hyprName": "guo-magic-keyboard",
+        "keydId": "004c:029c",
+        "enabled": true,
+        "enabledPresets": [],
+        "presetOverrides": {}
+      },
+      "logitech-usb-receiver": {
+        "displayName": "logitech usb receiver",
+        "hyprName": "logitech-usb-receiver",
+        "keydId": "046d:c548",
+        "enabled": true,
+        "enabledPresets": [],
+        "presetOverrides": {}
+      },
+      "minila-r-convertible": {
+        "displayName": "minila-r-convertible",
+        "hyprName": "minila-r-convertible",
+        "keydId": "0c45:22b8",
+        "enabled": true,
+        "enabledPresets": [
+          "alt-win-swap",
+          "muhenkan-meta",
+          "kana-left",
+          "delete-right",
+          "rightctrl-up",
+          "rightalt-down",
+          "grave-esc-swap"
+        ],
+        "presetOverrides": {
+          "muhenkan-meta": "f13",
+          "rightalt-down": "down"
+        }
+      }
+    }
+  },
+  "launcher": {
+    "$$description": "应用启动器配置",
+    "pinnedApps": [
+      "org.kde.dolphin",
+      "kitty",
+      "cmake-gui"
+    ]
+  },
+  "light": {
+    "$$description": "屏幕亮度和护眼模式",
+    "antiFlashbang": {
+      "enable": false
+    },
+    "night": {
+      "automatic": false,
+      "colorTemperature": 4742,
+      "from": "19:00",
+      "to": "06:30"
+    }
+  },
+  "lock": {
+    "$$description": "锁屏配置",
+    "blur": {
+      "enable": false,
+      "extraZoom": 1,
+      "radius": 0
+    },
+    "centerClock": true,
+    "launchOnStartup": false,
+    "materialShapeChars": true,
+    "security": {
+      "requirePasswordToPower": false,
+      "unlockKeyring": true
+    },
+    "showLockedText": true
+  },
+  "media": {
+    "$$description": "媒体播放器",
+    "filterDuplicatePlayers": true
+  },
+  "networking": {
+    "$$description": "网络行为",
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+  },
+  "notifications": {
+    "$$description": "通知配置",
+    "forceMonitor": {
+      "enable": false,
+      "name": ""
+    },
+    "mutedApps": [
+      "notify-send:📋 已粘贴图片路径"
+    ],
+    "silent": true,
+    "timeout": 7000
+  },
+  "ocr": {
+    "$$description": "OCR 识别配置",
+    "lang": "ch",
+    "engine": "onnxruntime"
+  },
+  "osd": {
+    "$$description": "OSD 显示时长（毫秒）",
+    "timeout": 1000
+  },
+  "overview": {
+    "$$description": "工作区概览配置",
+    "centerIcons": true,
+    "columns": 5,
+    "enable": true,
+    "orderBottomUp": false,
+    "orderRightLeft": false,
+    "rows": 2,
+    "scale": 0.18
+  },
+  "regionSelector": {
+    "$$description": "区域选择器（截图/OCR）配置",
+    "annotation": {
+      "useSatty": false
+    },
+    "circle": {
+      "padding": 10,
+      "strokeWidth": 6
+    },
+    "rect": {
+      "showAimLines": true
+    },
+    "targetRegions": {
+      "content": true,
+      "contentRegionOpacity": 0.8,
+      "layers": false,
+      "opacity": 0.3,
+      "selectionPadding": 5,
+      "showLabel": false,
+      "windows": true
+    }
+  },
+  "resources": {
+    "$$description": "资源监控",
+    "historyLength": 60,
+    "updateInterval": 3000
+  },
+  "screenRecord": {
+    "$$description": "录屏保存路径（空=仅剪贴板）",
+    "savePath": ""
+  },
+  "screenSnip": {
+    "$$description": "截图保存路径（空=仅剪贴板）",
+    "savePath": ""
+  },
+  "search": {
+    "$$description": "搜索配置",
+    "imageSearch": {
+      "imageSearchEngineBaseUrl": "https://lens.google.com/uploadbyurl?url=",
+      "useCircleSelection": false
+    }
+  },
+  "sounds": {
+    "$$description": "系统音效主题",
+    "theme": "freedesktop"
+  },
+  "startup": {
+    "$$description": "启动延迟和优先级控制",
+    "backgroundTasksDelayMs": 4000,
+    "deferBackgroundTasks": true,
+    "deferUpdateCheck": true,
+    "staggerPanelLoading": true,
+    "tier1DelayMs": 1500,
+    "tier2DelayMs": 6000,
+    "updateCheckDelayMs": 30000
+  },
+  "system": {
+    "$$description": "系统行为和环境",
+    "environment": {},
+    "startupAutoCommands": [
+      "fcitx5 --disable notificationitem"
+    ],
+    "waybarOff": true
+  },
+  "time": {
+    "$$description": "时间格式（Qt QDateTime 格式）",
+    "dateFormat": "ddd, dd/MM",
+    "dateWithYearFormat": "dd/MM/yyyy",
+    "shortDateFormat": "dd/MM"
+  },
+  "tray": {
+    "$$description": "系统托盘配置",
+    "filterPassive": false,
+    "invertPinnedItems": false,
+    "monochromeIcons": false,
+    "pinnedItems": [],
+    "showItemId": false
+  },
+  "updates": {
+    "$$description": "更新检查",
+    "adviseUpdateThreshold": 75,
+    "checkInterval": 120,
+    "enableCheck": true,
+    "stronglyAdviseUpdateThreshold": 200
+  },
+  "voice": {
+    "$$description": "语音输入设置",
+    "bindingsFile": "~/.config/voice_bindings.txt"
+  },
+  "windows": {
+    "$$description": "窗口装饰",
+    "centerTitle": true,
+    "showTitlebar": true
+  },
+  "backup": {
+    "$$description": "NAS 备份配置（密码使用 BACKUP_PASSWORD 环境变量）",
+    "address": "192.168.3.10",
+    "share": "NAS",
+    "user": "tetsuya",
+    "remotePath": "Backups",
+    "localPaths": [
+      "/home/tetsuya/下载/",
+      "/home/tetsuya/图片/",
+      "/home/tetsuya/.config/opencode/opencode.json"
+    ],
+    "includeExt": "",
+    "excludeExt": "",
+    "scheduleType": "manual",
+    "scheduleValue": ""
+  }
+}
