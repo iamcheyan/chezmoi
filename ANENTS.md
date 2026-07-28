@@ -160,14 +160,14 @@ bash <(curl -fsSL https://raw.githubusercontent.com/iamcheyan/chezmoi/main/init.
 chezmoi init --apply https://github.com/iamcheyan/chezmoi.git
 ```
 
-## oh-my-desktop (OMD) symlinks
+## Sumika Shell paths
 
-OMD 的部分路径是你的**个人环境数据**（指向本地 OMD 克隆位置），通过 chezmoi 管理。
+Sumika Shell 的用户配置由 chezmoi 管理；只有 Quickshell 源码根目录使用 symlink。
 
 | chezmoi 源文件 | 部署到目标 |
 |---|---|
-| `dot_config/symlink_omd.tmpl` | `~/.config/omd` → `~/development/OMD`（symlink） |
 | `dot_config/symlink_quickshell.tmpl` | `~/.config/quickshell` → `~/development/OMD/quickshell`（symlink） |
+| `dot_config/sumika-shell/` | `~/.config/sumika-shell/`（真实配置目录） |
 | `dot_config/foot/foot.ini` | `~/.config/foot/foot.ini` |
 | `dot_config/kitty/kitty.conf` | `~/.config/kitty/kitty.conf` |
 | `dot_config/kitty/current-theme.conf` | `~/.config/kitty/current-theme.conf` |
@@ -180,22 +180,22 @@ OMD 的部分路径是你的**个人环境数据**（指向本地 OMD 克隆位�
 | `dot_config/voice_bindings.txt` | `~/.config/voice_bindings.txt` |
 | `dot_config/voice_bindings.txt.save` | `~/.config/voice_bindings.txt.save` |
 
-终端配置（foot/kitty/alacritty/ghostty）、输入法（fcitx5）、Neovim 配色（oceanblack）、语音输入快捷键（voice_bindings.txt）都是**个人偏好文件**（非 symlink），不属于 OMD 公开项目。主题颜色仍由 OMD 的 `~/.config/omd/current/theme/` 注入。
+终端配置（foot/kitty/alacritty/ghostty）、输入法（fcitx5）、Neovim 配色（oceanblack）、语音输入快捷键（voice_bindings.txt）都是**个人偏好文件**（非 symlink）。Sumika Shell 的主题状态位于 `~/.local/state/sumika-shell/theme/`。
 
 ### 跨机器移植
 
-symlink targets 使用 chezmoi 模板变量 `{{ .chezmoi.homeDir }}`，在新机器上自动适配正确的 home 路径。
-如果你把 OMD clone 到不同路径（非 `~/development/OMD`），需要更新：
+Quickshell symlink target 使用 chezmoi 模板变量 `{{ .chezmoi.homeDir }}`，在新机器上自动适配正确的 home 路径。
+如果你把仓库 clone 到不同路径（非 `~/development/OMD`），需要更新：
 
 ```bash
-chezmoi edit ~/.config/omd    # 自动打开源文件
+chezmoi edit ~/.config/quickshell
 # 修改路径后保存
 chezmoi apply
 ```
 
 ### 注意事项
 
-- OMD 的 `Init.sh` 也会创建 `~/.config/{omd,quickshell}` 的 symlink，chezmoi 和 Init.sh 是兼容的——两者都指向同一目标，不会冲突。
+- `Init.sh` 也会创建 `~/.config/quickshell` symlink；`~/.config/sumika-shell` 始终是普通配置目录。
 - 不要直接删除这些文件——通过 `chezmoi remove` 来取消管理。
 
 
