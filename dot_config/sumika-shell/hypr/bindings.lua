@@ -1,10 +1,13 @@
 -- Personal input method keybindings.
 -- Loaded by hypr/hyprland.lua after the repo's hypr/bindings.lua.
--- Only needed if you use Rime schema cycling.
-
-local paths = require("default.hypr.paths")
-
-hl.unbind("SUPER + SPACE")
-hl.unbind("SUPER + SHIFT + SPACE")
-o.bind("SUPER + SPACE", "Next input language", "qs -p " .. paths.omd_root .. "/apps/omd-bar ipc call inputMethod cycle 1")
-o.bind("SUPER + SHIFT + SPACE", "Previous input language", "qs -p " .. paths.omd_root .. "/apps/omd-bar ipc call inputMethod cycle -1")
+--
+-- NOTE: The repo's hypr/bindings.lua already binds SUPER+SPACE / SUPER+SHIFT+SPACE
+-- to input-method.cycle via sumika-action, AND registers a transparent
+-- "superInterrupt" bind for every SUPER+key so that releasing Super after a
+-- SUPER+<key> chord does NOT toggle the workspace overview.
+--
+-- A previous version of this file called hl.unbind("SUPER + SPACE") + rebind,
+-- which wiped the interrupt bind and caused the overview to pop up every time
+-- Super was released after an input-method switch. Since the defaults now
+-- match exactly, this file intentionally adds nothing — keep it empty so the
+-- repo defaults (with their interrupt binds) stay intact.

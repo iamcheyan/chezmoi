@@ -55,12 +55,12 @@ o.window("com.mitchellh.ghostty", { scroll_touchpad = 0.2 })
 -- See https://wiki.hypr.land/Configuring/Advanced-and-Cool/Gestures/
 -- hl.gesture({ fingers = 3, direction = "horizontal", action = "workspace" })
 
--- OMD desktop gestures.
+-- Sumika Shell desktop gestures.
 hl.gesture({
   fingers = 4,
   direction = "up",
   action = function()
-    hl.dispatch(hl.dsp.exec_cmd("qs -p " .. paths.omd_root .. "/apps/omd-overview ipc call overview open"))
+    hl.dispatch(hl.dsp.exec_cmd("qs -p " .. paths.root .. "/apps/sumika-overview ipc call overview open"))
   end,
 })
 
@@ -68,7 +68,7 @@ hl.gesture({
   fingers = 4,
   direction = "pinchin",
   action = function()
-    hl.dispatch(hl.dsp.exec_cmd(paths.omd_root .. "/bin/omd-applauncher open"))
+    hl.dispatch(hl.dsp.exec_cmd(paths.root .. "/bin/sumika-applauncher open"))
   end,
 })
 

@@ -4,7 +4,7 @@
 #
 # If stdin/stdout is a TTY the install progress shows inline. When launched
 # without a terminal (e.g. from the App Launcher), the install step is shown in
-# a floating, centered terminal window (org.omd.flatpak-install) and auto-closes
+# a floating, centered terminal window (io.github.iamcheyan.sumika.flatpakinstall) and auto-closes
 # once done, then the app launches normally.
 set -euo pipefail
 
@@ -16,7 +16,7 @@ fi
 shift
 
 REMOTE="flathub"
-APP_ID_CLASS="org.omd.flatpak-install"
+APP_ID_CLASS="io.github.iamcheyan.sumika.flatpakinstall"
 
 have() { command -v "$1" >/dev/null 2>&1; }
 
