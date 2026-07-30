@@ -1,0 +1,15 @@
+{
+  "voiceInput": {
+    "bindings": [
+      "ALT + A",
+      "HANGUL_HANJA",
+      "0X100811D0",
+      "XF86Tools"
+    ]
+  },
+  "translation": {
+    "model": "DS/deepseek-v4-flash",
+    "targetLanguage": "English",
+    "binding": "HANGUL"
+  }
+}
