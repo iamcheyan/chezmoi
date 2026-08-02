@@ -11,7 +11,7 @@
 ~/chezmoi/                    ← 源目录（git 管理）
 ├── dot_config/               ← ~/.config/ 下的配置
 ├── dot_local/bin/            ← ~/.local/bin/ 下的可执行文件
-├── dot_omp/agent/            ← ~/.omp/agent/ 下的配置
+├── dot_omp/private_agent/  ← ~/.omp/agent/ 下的配置（0700 安全目录）
 ├── .chezmoi.toml.tmpl        ← chezmoi 配置模板
 ├── .chezmoiignore            ← 不部署的文件列表
 ├── ANENTS.md                 ← 智能体指南
