@@ -4,8 +4,11 @@
   "$$notice": "此文件由 chezmoi 管理。编辑后运行 `chezmoi apply` 生效。",
   "modules": {
     "$$description": "模块系统全局控制",
-    "enabled": false,
-    "barButtonOrder": {}
+    "enabled": true,
+    "barButtonOrder": {},
+    "disabled": [
+      "voice"
+    ]
   },
   "appearance": {
     "$$description": "UI 外观配置",
@@ -61,11 +64,14 @@
     "$$description": "壁纸/背景行为",
     "hideWhenFullscreen": true,
     "thumbnailPath": "",
-    "wallpaperPath": ""
+    "wallpaperPath": "~/.local/state/sumika-shell/wallpaper/background"
   },
   "bar": {
     "$$description": "顶栏/底栏配置",
     "borderless": false,
+    "showBackground": true,
+    "backgroundOpacity": 50,
+    "transparentOnEmptyDesktop": true,
     "bottom": false,
     "centerIconSize": 18,
     "centerModuleSpacing": 8,
@@ -82,7 +88,6 @@
     "rightIconSlotWidth": 28,
     "rightModuleSpacing": 8,
     "screenList": [],
-    "showBackground": true,
     "vertical": false
   },
   "battery": {

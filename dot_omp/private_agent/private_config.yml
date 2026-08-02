@@ -5,8 +5,8 @@ theme:
 setupVersion: 1
 modelRoles: 
   plan: ollama/glm-5.2
-  vision: openai-codex/gpt-5.6-luna
-  default: openai-codex/gpt-5.6-luna
+  vision: evomap/evomap-kimi-k2.6
+  default: opencode-go/deepseek-v4-flash
 colorBlindMode: true
 statusLine: 
   preset: ascii
