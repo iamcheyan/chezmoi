@@ -1,12 +1,7 @@
-{{- $envRaw := (include (joinPath .chezmoi.homeDir ".env")) -}}
-{{- $env := dict -}}
-{{- range (splitList "\n" $envRaw) -}}
-  {{- if and (gt (len .) 0) (not (hasPrefix "#" .)) (contains "=" .) -}}
-    {{- $k := (. | regexFind "^[^=]+") -}}
-    {{- $v := (. | regexFind "[^=]*$") -}}
-    {{- $env = merge $env (dict $k $v) -}}
-  {{- end -}}
-{{- end -}}
+{{- $ds := (bitwarden "item" "API_DEEPSEEK") -}}
+{{- $evo := (bitwarden "item" "API_EVOMAP") -}}
+{{- $go := (bitwarden "item" "API_OPENCODE_GO") -}}
+{{- $oll := (bitwarden "item" "API_OLLAMA") -}}
 {
   "$schema": "https://opencode.ai/config.json",
   "provider": {
@@ -14,7 +9,7 @@
       "api": "openai",
       "name": "DeepSeek",
       "options": {
-        "apiKey": "{{ index $env "DEEPSEEK_API_KEY" }}",
+        "apiKey": "{{ $ds.login.password }}",
         "baseURL": "https://api.deepseek.com"
       },
       "models": {
@@ -44,7 +39,7 @@
       "api": "openai",
       "name": "EvoMap Gateway",
       "options": {
-        "apiKey": "{{ index $env "EVOMAP_API_KEY" }}",
+        "apiKey": "{{ $evo.login.password }}",
         "baseURL": "https://api.evomap.ai/v1"
       },
       "models": {
@@ -78,7 +73,7 @@
       "api": "openai",
       "name": "OpenCode Go",
       "options": {
-        "apiKey": "{{ index $env "OPENCODE_GO_API_KEY" }}",
+        "apiKey": "{{ $go.login.password }}",
         "baseURL": "https://opencode.ai/zen/go/v1"
       },
       "models": {
@@ -108,7 +103,7 @@
       "api": "openai",
       "name": "Ollama Cloud",
       "options": {
-        "apiKey": "{{ index $env "OLLAMA_API_KEY" }}",
+        "apiKey": "{{ $oll.login.password }}",
         "baseURL": "https://ollama.com/v1"
       },
       "models": {
