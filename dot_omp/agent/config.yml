@@ -1,0 +1,30 @@
+symbolPreset: nerd
+theme: 
+  dark: dark-arctic
+  light: dark-nord
+setupVersion: 1
+modelRoles: 
+  plan: ollama/glm-5.2
+  vision: openai-codex/gpt-5.6-luna
+  default: openai-codex/gpt-5.6-luna
+colorBlindMode: true
+statusLine: 
+  preset: ascii
+  separator: ascii
+  sessionAccent: false
+  transparent: true
+  compactThinkingLevel: true
+  showHookStatus: true
+startup: 
+  quiet: false
+tui: 
+  textSizing: true
+terminal: 
+  showProgress: true
+display: 
+  showTokenUsage: true
+  cacheMissMarker: true
+  shimmer: classic
+modelRoleStorage: global
+defaultThinkingLevel: auto
+hideThinkingBlock: true
