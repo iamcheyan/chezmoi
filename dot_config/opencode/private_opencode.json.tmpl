@@ -123,6 +123,26 @@
           }
         }
       }
+    },
+    "ollama-BAK": {
+      "api": "openai",
+      "name": "Ollama Cloud (BAK)",
+      "options": {
+        "apiKey": "{{ index $env "OLLAMA_BAK_API_KEY" }}",
+        "baseURL": "https://ollama.com/v1"
+      },
+      "models": {
+        "glm-5.2": {
+          "id": "glm-5.2",
+          "name": "GLM 5.2 (Ollama BAK)",
+          "family": "glm",
+          "tool_call": true,
+          "limit": {
+            "context": 1000000,
+            "output": 8192
+          }
+        }
+      }
     }
   },
   "permission": {

@@ -124,3 +124,23 @@ providers:
           cacheWrite: 0
         contextWindow: 1000000
         maxTokens: 8192
+
+  ollama-BAK:
+    baseUrl: https://ollama.com/v1
+    apiKey: {{ index $env "OLLAMA_BAK_API_KEY" }}
+    headers:
+      Authorization: "Bearer {{ index $env "OLLAMA_BAK_API_KEY" }}"
+    api: openai-completions
+    models:
+      - id: glm-5.2
+        name: GLM 5.2 (Ollama BAK)
+        api: openai-completions
+        reasoning: false
+        input: [text]
+        cost:
+          input: 8
+          output: 31
+          cacheRead: 0
+          cacheWrite: 0
+        contextWindow: 1000000
+        maxTokens: 8192
