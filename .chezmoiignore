@@ -16,6 +16,7 @@ config
 .omp/agent/terminal-sessions
 .omp/agent/blobs
 .omp/agent/last-changelog-version
+.omp/agent/.env
 .omp/logs
 .omp/stats.db
 .omp/stats.db-shm

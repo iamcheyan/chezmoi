@@ -18,6 +18,26 @@
 └── init.sh                   ← 新机器初始化脚本
 ```
 
+## omp 模型配置（models.yml）
+
+`~/.omp/agent/models.yml`（chezmoi 托管，`dot_omp/private_agent/private_models.yml`，0600）导入 opencode 的全部自定义 provider：
+
+- `deepseek`（DeepSeek 直连）、`evomap`（EvoMap 网关，含 vision 模型 `evomap-kimi-k2.6`）、`opencode-go`、`ollama`（Ollama Cloud）
+- `apiKey` 一律写**环境变量名**（如 `EVOMAP_API_KEY`），实际值放在 `~/.omp/agent/.env`（0600，**不**进 chezmoi，已在 `.chezmoiignore` 排除）
+- omp 启动时自动加载 `~/.omp/agent/.env`；已存在的 shell 环境变量优先于 .env
+
+新机器配置步骤：
+
+```bash
+chezmoi init && chezmoi apply
+# 然后手动设置密钥（不在仓库中）
+omp auth login                # openai-codex OAuth
+# 在 shell profile 或 ~/.omp/agent/.env 中设置：
+#   OLLAMA_CLOUD_API_KEY=...   （ollama-cloud 模型）
+#   EVOMAP_API_KEY=...         （evomap 网关）
+#   DEEPSEEK_API_KEY=... OPENCODE_GO_API_KEY=... OLLAMA_API_KEY=...
+```
+
 ## 快速开始
 
 ```bash
